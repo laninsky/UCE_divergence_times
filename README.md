@@ -38,13 +38,25 @@ fastphylo
 -D HAMMING -F 0.95
 ```
 
-Fourth line and onwards:
+Fourth line: 
+Here you need your fossil calibration in whatever units you want the final estimate of TMRCA of your ingroup in.
+
+```
+nexus
+fastphylo
+-D HAMMING -F 0.95
+85
+```
+
+Five line and onwards:
 Here, you need to specify the outgroups that are present in your sequence (*.fasta, *.nexus) files. If you have multiple outgroups, each of these should go on a separate line e.g.
 ```
 nexus
 fastphylo
 -D HAMMING -F 0.95
-
+85
+mantheyus_phuwanensis_fmnh255495b
+mantheyus_phuwanensis_fmnh262580
 ```
 
 
