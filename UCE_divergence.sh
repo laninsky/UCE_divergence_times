@@ -1,7 +1,10 @@
-gatk=`tail -n+1 phasing_settings | head -n1`
-picard=`tail -n+2 phasing_settings | head -n1`
-sequencing=`tail -n+5 phasing_settings | head -n1`
-forward=`tail -n+6 phasing_settings | head -n1`
+filetype=`tail -n+1 UCE_divergence.settings | head -n1`
+method=`tail -n+2 UCE_divergence.settings | head -n1`
+methodoptions=`tail -n+3 UCE_divergence.settings | head -n1`
+
+
+
+
 
 NEXUSFILES=*.nexus
 for f in $NEXUSFILES; do 
