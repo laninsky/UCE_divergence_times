@@ -1,7 +1,7 @@
 # UCE_divergence_times v 0.0.0 [i.e. not ready for public consumption]
 Given an outgroup among your UCE data, and a fossil calibration for the split between your outgroup and ingroup, this program estimates the MRCA of your ingroup based on sequence divergence. To roughly account for  rate variation among the taxa, if the divergence between the ingroup species is greater than that between the outgroup/ingroup species, these loci are ditched i.e. only loci where "divergence between ingroup species" < "divergence between ingroup and outgroup species" are used, because these should be loci that are evolving in a more clock-like manner (which is what we are assuming by not explicitly accounting for rate variation between lineages as this is a tree-free approach).
 
-This program is designed to be run inside a folder that has a separate *.fasta or *.uce file for each of your UCE loci. Within that folder you should place your UCE_divergence.settings file (described below), UCE_divergence.sh, shortennames.R, and UCE_divergence.R. You can then execute UCE_divergence_times by bash UCE_divergence.sh.
+This program is designed to be run inside a folder that has a separate *.fasta or *.uce file for each of your UCE loci. Within that folder you should place your UCE_divergence.settings file (described below), UCE_divergence.sh, shortennames.R (the library stringr needs to have previously been installed as an R-dependency using install.packages("stringr")), and UCE_divergence.R. You can then execute UCE_divergence_times by bash UCE_divergence.sh.
 
 #Setting up your UCE_divergence.settings file
 First line:
