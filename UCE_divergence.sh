@@ -18,9 +18,10 @@ done
 fi
 
 ls *.nex | tail -n+1 | head -n1 > renamefile
+Rscript shortennames.R
+bash shortnames.sh
 
-
-
+#NOW READY TO RUN THE ACTUAL PAUP COMMANDS
 
 
 
