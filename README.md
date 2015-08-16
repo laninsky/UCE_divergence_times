@@ -19,7 +19,7 @@ nexus
 fastphylo
 ```
 
-If you select paup, make sure you have it installed and within your path. If you select fastphylo, make sure you have this installed and within your path. Additionally, if you are starting from *.nexus (==*.nex) files, and want to use fastphylo, make sure you have seqmagick installed and in your path  (this is going to convert from the *.nexus to *.fasta files that fastphylo can deal with). You also need to make sure that the path to the seqmagick python libs are in your PYTHONPATH e.g.
+If you select paup, make sure you have it installed and within your path. If you select fastphylo, make sure you have this installed and within your path. Additionally, if you are starting from *.nexus (or *.nex = same thing, different extension name) files, and want to use fastphylo, make sure you have seqmagick installed and in your path  (this is going to convert from the *.nexus to *.fasta files that fastphylo can deal with). You also need to make sure that the path to the seqmagick python libs are in your PYTHONPATH e.g.
 PYTHONPATH="${PYTHONPATH}:/home/a499a400/bin/seqmagick/lib/python"
 export PYTHONPATH
 
