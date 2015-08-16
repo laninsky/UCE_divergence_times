@@ -2,9 +2,31 @@ filetype=`tail -n+1 UCE_divergence.settings | head -n1`
 method=`tail -n+2 UCE_divergence.settings | head -n1`
 methodoptions=`tail -n+3 UCE_divergence.settings | head -n1`
 
+if [ "$method" = "paup" ]; then
+if [ "$filetype" = "fasta" ]; then
+for f in `ls *.fasta`; do 
+newname=`echo $f | sed "1s/.fasta//"`
+seqmagick convert --alphabet dna-ambiguous $newname.fasta $newname.nex
+done
+fi
+
+if [ "$filetype" = "nexus" ]; then
+for f in `ls *.nexus`; do 
+newname=`echo $f | sed "1s/.nexus//"`
+mv $newname.nexus $newname.nex
+done
+fi
 
 
 
+
+
+
+
+fi else
+then if [ "$filetype" = "nexus" ]
+touch $newname.nex
+cat $f > $newname.nex
 
 NEXUSFILES=*.nexus
 for f in $NEXUSFILES; do 
