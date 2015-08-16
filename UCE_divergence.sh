@@ -17,6 +17,7 @@ mv $newname.nexus $newname.nex
 done
 fi
 
+ls *.nex | tail -n+1 | head -n1 > renamefile
 
 
 
