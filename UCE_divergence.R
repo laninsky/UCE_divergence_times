@@ -1,30 +1,34 @@
-#OK, so now we are moving into R to do the actual number crunching
-R --no-save
-# being cautious and removing any variables which might be hanging out in R space
-rm(list=ls())
-
 # importing our giant outfile and converting it to a matrix so we can do things to it
 in_table <- read.table("combined.outfile", header=FALSE, stringsAsFactors=FALSE)
-lizardmatrix <- as.matrix(in_table[1:(dim(in_table)[1]),1:dim(in_table)[2]])
-lizardmatrix <- sub("\\*",0, lizardmatrix)
-
+distmatrix <- as.matrix(in_table[1:(dim(in_table)[1]),1:dim(in_table)[2]])
+distmatrix <- sub("\\*",0, distmatrix)
 rm(in_table)
 
 # Calculating the max length of the matrix so that we can feed it into the while loop below
-maxlength <- dim(lizardmatrix)[1]
+maxlength <- dim(distmatrix)[1]
+maxwidth <-  dim(distmatrix)[2] - 2
+names <- distmatrix[1:maxwidth,2]
+
+intable <- readLines("UCE_divergence.settings")
+nosettings <- length(intable)
+outgroups <- intable[5:nosettings]
+outgroups <- outgroups[outgroups != ""]
+
+
+####################UP TO HERE RE-JIGGING FILE
 
 # giving an intial j value
 j <- 1
-out <- c("locusname","maxcladespecies1","maxcladespecies2","maxcladedistance","maxmanthspecies1","maxmanthspecies2","maxmanthdistance","medmanthdistance","minmanthspecies1","minmanthspecies2","minmanthdistance","minage","medage","maxage")
+out <- c("locusname","maxcladespecies1","maxcladespecies2","maxcladedistance","maxoutspecies1","maxmanthspecies2","maxmanthdistance","medmanthdistance","minmanthspecies1","minmanthspecies2","minmanthdistance","minage","medage","maxage")
 
 while (j <= maxlength) {
 #creating a matrix with just the non-mantheyus species 
 tempclade <- NULL
-tempclade1 <- lizardmatrix[j:(j+14),1:17]
-tempclade2 <- lizardmatrix[(j+17):(j+23),1:17]
+tempclade1 <- distmatrix[j:(j+14),1:17]
+tempclade2 <- distmatrix[(j+17):(j+23),1:17]
 tempclade_1_2 <- rbind(tempclade1, tempclade2)
-tempclade3 <- lizardmatrix[j:(j+14),20:26]
-tempclade4 <- lizardmatrix[(j+17):(j+23),20:26]
+tempclade3 <- distmatrix[j:(j+14),20:26]
+tempclade4 <- distmatrix[(j+17):(j+23),20:26]
 tempclade_3_4 <- rbind(tempclade3, tempclade4)
 tempclade <- cbind(tempclade_1_2,tempclade_3_4)
 
@@ -41,8 +45,8 @@ maxcladespecies1 <- tempclade[maxcladedistanceloc[1,1],2]
 maxcladespecies2 <- tempclade[maxcladedistanceloc[1,2],2]
 
 # creating a matrix with mantheyus to calculate the min/max divergence between them and the other critters
-tempmanthclade1 <- lizardmatrix[(j+15):(j+16),1:17]
-tempmanthclade2 <- lizardmatrix[(j+15):(j+16),20:26]
+tempmanthclade1 <- distmatrix[(j+15):(j+16),1:17]
+tempmanthclade2 <- distmatrix[(j+15):(j+16),20:26]
 tempmanthclade <- cbind(tempmanthclade1, tempmanthclade2)
 maxmanthdistance <- max(as.numeric(tempmanthclade[1:2,3:24]))
 if(is.na(maxmanthdistance)) {
@@ -88,7 +92,7 @@ medage <- maxcladedistance/medmutation/2
 maxage <- maxcladedistance/minmutation/2 
 }
 
-tempout <- c(lizardmatrix[j,1],maxcladespecies1,maxcladespecies2,maxcladedistance,maxmanthspecies1,maxmanthspecies2,maxmanthdistance,medmanthdistance,minmanthspecies1,minmanthspecies2,minmanthdistance,minage,medage,maxage)
+tempout <- c(distmatrix[j,1],maxcladespecies1,maxcladespecies2,maxcladedistance,maxmanthspecies1,maxmanthspecies2,maxmanthdistance,medmanthdistance,minmanthspecies1,minmanthspecies2,minmanthdistance,minage,medage,maxage)
 out <- rbind(out,tempout)
 
 # counting up 24 to move on to the next locus
