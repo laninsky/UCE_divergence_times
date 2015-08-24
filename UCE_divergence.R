@@ -7,13 +7,19 @@ rm(in_table)
 # Calculating the max length of the matrix so that we can feed it into the while loop below
 maxlength <- dim(distmatrix)[1]
 maxwidth <-  dim(distmatrix)[2] - 2
-names <- distmatrix[1:maxwidth,2]
+names <- t(as.matrix(distmatrix[1:maxwidth,2]))
+names <- cbind("locus","sp1",names)
+distmatrix <- rbind(names,distmatrix)
+
+rm(names)
+rm(maxwidth)
 
 intable <- readLines("UCE_divergence.settings")
 nosettings <- length(intable)
 outgroups <- intable[5:nosettings]
 outgroups <- outgroups[outgroups != ""]
 
+rm(nosettings)
 
 ####################UP TO HERE RE-JIGGING FILE
 
