@@ -89,4 +89,4 @@ rm -rf temp;
 done;
 ```
 
-Once you have done this, your sequences are now in *.fasta format, so make sure you change the first line in your UCE_divergence.settings file to reflect this.
+Once you have done this, your sequences are now in *.fasta format, so make sure you change the first line in your UCE_divergence.settings file to reflect this before attempting to run the UCE_divergence_times pipeline.
