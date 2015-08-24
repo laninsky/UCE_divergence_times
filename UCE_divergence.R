@@ -20,13 +20,12 @@ outgroups <- outgroups[outgroups != ""]
 rm(nosettings)
 
 #Creating output file
-outputlength <- length(unique(distmatrix[,1]))
+outputlength <- length(unique(distmatrix[,1]))-1
 out <- c("locusname","maxingroupspecies1","maxingrouppecies2","maxingroupdistance","minoutgroupspecies","mininoutgroupcompspecies2","minoutgroupdistance","age")
 output <- matrix("missing", nrow=outputlength,ncol=8)
 output <- rbind(out,output)
 
 rm(out)
-rm(maxwidth)
 
 newdistmatrix <- NULL
 for (m in 1:(maxwidth+2)) {
@@ -35,17 +34,25 @@ newdistmatrix <- cbind(newdistmatrix,distmatrix[,m])
 }
 }
 
+calibration <- as.numeric(intable[4])
+
 rm(distmatrix)
+rm(intable)
 
 #Taking our input distances and writing things out to the outfile
 i <- 2
 j <- 2
 while (j <= maxlength) {
 k <- j + 1
-while (newdistmatrix[j,1]==newdistmatrix[k,1]) {
+while ((k <= maxlength) && (newdistmatrix[j,1]==newdistmatrix[k,1])) {
 k <- k + 1
 }
-tempmatrix <- newdistmatrix[j:k,]
+
+if(k==maxlength+1) {
+k <- maxlength + 2
+}
+
+tempmatrix <- newdistmatrix[j:(k-1),]
 tempingroupmatrix <- NULL
 tempoutgroupmatrix <- NULL
 for (m in 1:maxwidth) {
@@ -61,32 +68,21 @@ output[i,4] <- max(as.numeric(tempingroupmatrix[,3:(dim(tempingroupmatrix)[2])])
 maxcladedistanceloc <-  arrayInd(which.max(as.numeric(tempingroupmatrix[,3:(dim(tempingroupmatrix)[2])])), dim(tempingroupmatrix))
 output[i,2] <- tempingroupmatrix[maxcladedistanceloc[1,1],2]
 output[i,3] <- tempingroupmatrix[maxcladedistanceloc[1,2],2]
-output[i,7] <- min(as.numeric(tempoutgroupmatrix[,3:(dim(tempoutgroupmatrix)[2])])[as.numeric(tempoutgroupmatrix[,3:(dim(tempoutgroupmatrix)[2])])>0])
+output[i,7] <- suppressWarnings(min(as.numeric(tempoutgroupmatrix[,3:(dim(tempoutgroupmatrix)[2])])[as.numeric(tempoutgroupmatrix[,3:(dim(tempoutgroupmatrix)[2])])>0]))
 
-
-# creating a matrix with mantheyus to calculate the min/max divergence between them and the other critters
-tempmanthclade1 <- distmatrix[(j+15):(j+16),1:17]
-tempmanthclade2 <- distmatrix[(j+15):(j+16),20:26]
-tempmanthclade <- cbind(tempmanthclade1, tempmanthclade2)
-maxmanthdistance <- max(as.numeric(tempmanthclade[1:2,3:24]))
-
-minage <- maxcladedistance/maxmutation/2
-medage <- maxcladedistance/medmutation/2
-maxage <- maxcladedistance/minmutation/2 
+if(!(output[i,7]=="Inf")) {
+maxoutgrouploc <- arrayInd(which(as.numeric(tempoutgroupmatrix[,3:(dim(tempoutgroupmatrix)[2])])==output[i,7]),dim(tempoutgroupmatrix))
+output[i,5] <- tempoutgroupmatrix[maxoutgrouploc[1,1],2]
+output[i,6] <- tempingroupmatrix[maxoutgrouploc[1,2],2]
+output[i,8] <- calibration/as.numeric(output[i,7])*as.numeric(output[i,4])
+}
+i <- i + 1
+j <- k
 }
 
-tempout <- c(distmatrix[j,1],maxcladespecies1,maxcladespecies2,maxcladedistance,maxmanthspecies1,maxmanthspecies2,maxmanthdistance,medmanthdistance,minmanthspecies1,minmanthspecies2,minmanthdistance,minage,medage,maxage)
-out <- rbind(out,tempout)
+# Up to here - need to summarize the output
 
-# counting up 24 to move on to the next locus
-j <- j + 24
-}
-
-write.table(out, "Agamid_clade_age.csv", quote=FALSE, sep = ",", col.names=FALSE, row.names=FALSE)
-
-rm(list=ls())
+write.table(out, "UCE_clade_age.csv", quote=FALSE, sep = ",", col.names=FALSE, row.names=FALSE)
 
 # Quitting R
 q()
-
-#lizardmatrix[j:(j+23),]
