@@ -11,9 +11,7 @@ names <- t(as.matrix(distmatrix[1:maxwidth,2]))
 names <- cbind("locus","sp1",names)
 distmatrix <- rbind(names,distmatrix)
 
-rm(names)
-rm(maxwidth)
-
+#Getting outgroup names
 intable <- readLines("UCE_divergence.settings")
 nosettings <- length(intable)
 outgroups <- intable[5:nosettings]
@@ -21,77 +19,56 @@ outgroups <- outgroups[outgroups != ""]
 
 rm(nosettings)
 
-####################UP TO HERE RE-JIGGING FILE
+#Creating output file
+outputlength <- length(unique(distmatrix[,1]))
+out <- c("locusname","maxingroupspecies1","maxingrouppecies2","maxingroupdistance","minoutgroupspecies","mininoutgroupcompspecies2","minoutgroupdistance","age")
+output <- matrix("missing", nrow=outputlength,ncol=8)
+output <- rbind(out,output)
 
-# giving an intial j value
-j <- 1
-out <- c("locusname","maxcladespecies1","maxcladespecies2","maxcladedistance","maxoutspecies1","maxmanthspecies2","maxmanthdistance","medmanthdistance","minmanthspecies1","minmanthspecies2","minmanthdistance","minage","medage","maxage")
+rm(out)
+rm(maxwidth)
 
+newdistmatrix <- NULL
+for (m in 1:(maxwidth+2)) {
+if (!(distmatrix[1,m] %in% outgroups)) {
+newdistmatrix <- cbind(newdistmatrix,distmatrix[,m])
+}
+}
+
+rm(distmatrix)
+
+#Taking our input distances and writing things out to the outfile
+i <- 2
+j <- 2
 while (j <= maxlength) {
-#creating a matrix with just the non-mantheyus species 
-tempclade <- NULL
-tempclade1 <- distmatrix[j:(j+14),1:17]
-tempclade2 <- distmatrix[(j+17):(j+23),1:17]
-tempclade_1_2 <- rbind(tempclade1, tempclade2)
-tempclade3 <- distmatrix[j:(j+14),20:26]
-tempclade4 <- distmatrix[(j+17):(j+23),20:26]
-tempclade_3_4 <- rbind(tempclade3, tempclade4)
-tempclade <- cbind(tempclade_1_2,tempclade_3_4)
+k <- j + 1
+while (newdistmatrix[j,1]==newdistmatrix[k,1]) {
+k <- k + 1
+}
+tempmatrix <- newdistmatrix[j:k,]
+tempingroupmatrix <- NULL
+tempoutgroupmatrix <- NULL
+for (m in 1:maxwidth) {
+if (!(tempmatrix[m,2] %in% outgroups)) {
+tempingroupmatrix <- rbind(tempingroupmatrix,tempmatrix[m,])
+} else {
+tempoutgroupmatrix <- rbind(tempoutgroupmatrix,tempmatrix[m,])
+}
+}
 
-rm(tempclade1)
-rm(tempclade2)
-rm(tempclade_1_2)
-rm(tempclade3)
-rm(tempclade4)
-rm(tempclade_3_4)
+output[i,1] <- tempmatrix[1,1]
+output[i,4] <- max(as.numeric(tempingroupmatrix[,3:(dim(tempingroupmatrix)[2])]))
+maxcladedistanceloc <-  arrayInd(which.max(as.numeric(tempingroupmatrix[,3:(dim(tempingroupmatrix)[2])])), dim(tempingroupmatrix))
+output[i,2] <- tempingroupmatrix[maxcladedistanceloc[1,1],2]
+output[i,3] <- tempingroupmatrix[maxcladedistanceloc[1,2],2]
+output[i,7] <- min(as.numeric(tempoutgroupmatrix[,3:(dim(tempoutgroupmatrix)[2])])[as.numeric(tempoutgroupmatrix[,3:(dim(tempoutgroupmatrix)[2])])>0])
 
-maxcladedistance <- max(as.numeric(tempclade[1:22,3:24]))
-maxcladedistanceloc <-  arrayInd(which.max(as.numeric(tempclade[1:22,3:24])), dim(tempclade))
-maxcladespecies1 <- tempclade[maxcladedistanceloc[1,1],2]
-maxcladespecies2 <- tempclade[maxcladedistanceloc[1,2],2]
 
 # creating a matrix with mantheyus to calculate the min/max divergence between them and the other critters
 tempmanthclade1 <- distmatrix[(j+15):(j+16),1:17]
 tempmanthclade2 <- distmatrix[(j+15):(j+16),20:26]
 tempmanthclade <- cbind(tempmanthclade1, tempmanthclade2)
 maxmanthdistance <- max(as.numeric(tempmanthclade[1:2,3:24]))
-if(is.na(maxmanthdistance)) {
-maxmanthspecies1 <- c("missing")
-maxmanthspecies2 <- c("missing")
-medmanthspecies1 <- c("missing")
-medmanthspecies2 <- c("missing")
-medmanthdistance <- c("missing")
-minmanthspecies1 <- c("missing")
-minmanthspecies2 <- c("missing")
-minmanthdistance <- c("missing")
-minage <- c("missing")
-maxage <- c("missing")
-} else if (maxmanthdistance==0) {
-maxmanthspecies1 <- c("missing")
-maxmanthspecies2 <- c("missing")
-medmanthspecies1 <- c("missing")
-medmanthspecies2 <- c("missing")
-medmanthdistance <- c("missing")
-minmanthspecies1 <- c("missing")
-minmanthspecies2 <- c("missing")
-minmanthdistance <- c("missing")
-minage <- c("missing")
-maxage <- c("missing")
-} else {
-maxmanthdistanceloc <-  arrayInd((which.max(as.numeric(tempmanthclade[1:2,3:24]))), dim(tempmanthclade))
-maxmanthspecies1 <- tempmanthclade[maxmanthdistanceloc[1,1],2]
-maxmanthspecies2 <- tempclade[maxcladedistanceloc[1,2],2]
-
-medmanthdistance <- median(as.numeric(tempmanthclade[1:2,3:24])[(as.numeric(tempmanthclade[1:2,3:24]))>0])
-
-minmanthdistance <- min(as.numeric(tempmanthclade[1:2,3:24])[(as.numeric(tempmanthclade[1:2,3:24]))>0])
-minmanthdistanceloc <-  arrayInd(which(minmanthdistance==(as.numeric(tempmanthclade[1:2,3:24]))), dim(tempmanthclade))
-minmanthspecies1 <- tempmanthclade[minmanthdistanceloc[1,1],2]
-minmanthspecies2 <- tempclade[minmanthdistanceloc[1,2],2]
-
-maxmutation <- maxmanthdistance/(2*91)
-medmutation <- medmanthdistance/(2*91)
-minmutation <- minmanthdistance/(2*91)            
 
 minage <- maxcladedistance/maxmutation/2
 medage <- maxcladedistance/medmutation/2
