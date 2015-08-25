@@ -28,10 +28,10 @@ output[i,4] <- paste("sed -i 's/",output[i,2],"/",output[i,1],"/' $f;",sep="")
 }
 
 script1 <- as.matrix(output[,3])
-script1 <- rbind("for f in `ls *.nex`; do",script,"done")
+script1 <- rbind("for f in `ls *.nex`; do",script1,"done")
 
 script2 <- as.matrix(output[,4])
-script2 <- rbind("for f in `ls *.csv`; do",script,"done")
+script2 <- rbind("for f in `ls *.csv`; do",script2,"done")
 
 write.table(script1,"shortnames.sh",quote=FALSE, row.names=FALSE,col.names=FALSE)
 write.table(script1,"lengthennames.sh",quote=FALSE, row.names=FALSE,col.names=FALSE)
