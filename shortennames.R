@@ -12,6 +12,9 @@ x <- 1
 if (input[i]=="") {
 break
 }
+if (input[i]==";") {
+break
+}
 if (x==1) {
 names <- rbind(names,input[i])
 }
@@ -34,4 +37,4 @@ script2 <- as.matrix(output[,4])
 script2 <- rbind("for f in `ls *.csv`; do",script2,"done")
 
 write.table(script1,"shortnames.sh",quote=FALSE, row.names=FALSE,col.names=FALSE)
-write.table(script1,"lengthennames.sh",quote=FALSE, row.names=FALSE,col.names=FALSE)
+write.table(script2,"lengthennames.sh",quote=FALSE, row.names=FALSE,col.names=FALSE)
