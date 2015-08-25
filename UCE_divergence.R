@@ -21,7 +21,7 @@ rm(nosettings)
 
 #Creating output file
 outputlength <- length(unique(distmatrix[,1]))-1
-out <- c("locusname","maxingroupspecies1","maxingrouppecies2","maxingroupdistance","minoutgroupspecies","mininoutgroupcompspecies2","minoutgroupdistance","age")
+out <- c("locusname","maxingroupspecies1","maxingrouppecies2","maxingroupdistance","maxoutgroupspecies","maxinoutgroupcompspecies2","maxoutgroupdistance","age")
 output <- matrix("missing", nrow=outputlength,ncol=8)
 output <- rbind(out,output)
 
@@ -93,11 +93,14 @@ missingdata <- rbind(missingdata,output[i,])
 if (as.numeric(output[i,4])>as.numeric(output[i,7])) {
 notclocklike <- rbind(notclocklike,output[i,])
 } else {
+if (as.numeric(output[i,4])==as.numeric(output[i,7])) {
+notclocklike <- rbind(notclocklike,output[i,])
+} else {
 clocklike <- rbind(clocklike,output[i,])
 }
 }
 }
-
+}
 
 nomissing <- dim(missingdata)[1]
 nonotclock <- dim(notclocklike)[1]
@@ -119,5 +122,5 @@ cat("Over the remaining ",noclocklike," loci, ingroup age estimated at:\nmin    
 cat("Total dataset, including missing and not 'clock-like' written to total_output.csv\n")
 cat("'Clock-like' dataset written to UCE_clade_age.csv\n")
 
-write.table(output, "total_output.csv", quote=FALSE, sep = ",", col.names=FALSE, row.names=FALSE)
-write.table(clocklike, "UCE_clade_age.csv", quote=FALSE, sep = ",", col.names=FALSE, row.names=FALSE)
+write.table(output, "total_output.csv", quote=FALSE, sep = ",")
+write.table(clocklike, "UCE_clade_age.csv", quote=FALSE, sep = ",")
