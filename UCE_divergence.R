@@ -25,8 +25,6 @@ out <- c("locusname","maxingroupspecies1","maxingrouppecies2","maxingroupdistanc
 output <- matrix("missing", nrow=outputlength,ncol=8)
 output <- rbind(out,output)
 
-rm(out)
-
 newdistmatrix <- NULL
 for (m in 1:(maxwidth+2)) {
 if (!(distmatrix[1,m] %in% outgroups)) {
@@ -122,5 +120,7 @@ cat("Over the remaining ",noclocklike," loci, ingroup age estimated at:\nmin    
 cat("Total dataset, including missing and not 'clock-like' written to total_output.csv\n")
 cat("'Clock-like' dataset written to UCE_clade_age.csv\n")
 
-write.table(output, "total_output.csv", quote=FALSE, sep = ",")
-write.table(clocklike, "UCE_clade_age.csv", quote=FALSE, sep = ",")
+clocklike <- rbind(out,clocklike)
+
+write.table(output, "total_output.csv", quote=FALSE, sep = ",", quote=FALSE, row.names=FALSE,col.names=FALSE)
+write.table(clocklike, "UCE_clade_age.csv", quote=FALSE, sep = ",", quote=FALSE, row.names=FALSE,col.names=FALSE)
