@@ -117,7 +117,7 @@ cat("Of the total ",total," loci:\n",nomissing," had missing data so age estimat
 cat("Over the remaining ",noclocklike," loci, ingroup age estimated at:\nmin         : ",minclock,"\n25% quartile: ",quart25,"\nmedian      : ",medclock,"\nmean        : ",meanclock, "\n75% quartile: ",quart75,"\nmax         : ",maxclock,"\nS.D.        : ", clocksd, "\n")
 
 cat("Total dataset, including missing and not 'clock-like' written to total_output.csv\n")
-cat("'Clock-like' datset written to UCE_clade_age.csv\n")
+cat("'Clock-like' dataset written to UCE_clade_age.csv\n")
 
 write.table(output, "total_output.csv", quote=FALSE, sep = ",", col.names=FALSE, row.names=FALSE)
 write.table(clocklike, "UCE_clade_age.csv", quote=FALSE, sep = ",", col.names=FALSE, row.names=FALSE)
