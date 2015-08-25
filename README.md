@@ -1,11 +1,11 @@
 # UCE_divergence_times v 0.0.0 [i.e. not ready for public consumption]
-Given an outgroup among your UCE data, and a fossil calibration for the split between your outgroup and ingroup, this program estimates the MRCA of your ingroup based on sequence divergence. To roughly account for  rate variation among the taxa, if the divergence between the ingroup species is greater than that between the outgroup/ingroup species, these loci are ditched i.e. only loci where "divergence between ingroup species" < "divergence between ingroup and outgroup species" are used, because these should be loci that are evolving in a more clock-like manner (which is what we are assuming by not explicitly accounting for rate variation between lineages as this is a tree-free approach). Because of this, your ingroup and outgroup also need to be reciprocally monophyletic, and no additional out-outgroups should be included. See section below on removing unwanted sequences...
+Given an outgroup among your UCE data, and a fossil calibration for the split between your outgroup and ingroup, this program estimates the MRCA of your ingroup based on sequence divergence. To roughly account for  rate variation among the taxa (and incomplete lineage sorting!), if the divergence between the ingroup species is greater than that between the outgroup/ingroup species, these loci are ditched i.e. only loci where "divergence between ingroup species" < "divergence between ingroup and outgroup species" are used, because these should be loci that are evolving in a more clock-like manner (which is what we are assuming by not explicitly accounting for rate variation between lineages/gene-tree and species-tree discordance, as this is a tree-free approach). Because of this, your ingroup and outgroup also need to be reciprocally monophyletic, and no additional out-outgroups should be included. See section below on removing unwanted sequences...
 
-This program is designed to be run inside a folder that has a separate *.fasta or *.uce file for each of your UCE loci. Within that folder you should place your UCE_divergence.settings file (described below), UCE_divergence.sh, shortennames.R (the library stringr needs to have previously been installed as an R-dependency using install.packages("stringr")), and UCE_divergence.R. You can then execute UCE_divergence_times by bash UCE_divergence.sh.
+This program is designed to be run inside a folder that has a separate *.fasta or *.nex file for each of your UCE loci. Within that folder you should place your UCE_divergence.settings file (described below), UCE_divergence.sh, shortennames.R (the library stringr needs to have previously been installed as an R-dependency using install.packages("stringr")), and UCE_divergence.R. You can then execute UCE_divergence_times by bash UCE_divergence.sh.
 
 #Setting up your UCE_divergence.settings file
 First line:
-There are a number of options for how you run this script that you will set in the UCE_divergence.settings file (example below). This is just a simple text file with a different option on each line. The first of these is whether your data is *.fasta or *.nexus. If it is *.nexus, is the extension *.nexus or *.nex (some of the programs care about the specific extension name? First line = fasta, nexus or nex e.g.
+Your UCE_divergence.settings file is just a simple text file with a different option on each line. The first of these is whether your data is *.fasta or *.nexus. If it is *.nexus, is the extension *.nexus or *.nex (some of the programs care about the specific extension name)? First line = fasta, nexus or nex e.g.
 ```
 nexus
 ```
@@ -13,7 +13,7 @@ nexus
 Second line:
 Your next option is which program you would rather use to estimate the pairwise divergences between your UCE loci: fastphylo or paup. 
 -- fastphylo has a correction for saturation of sequences which paup doesn't have, which can be specified by "F". I have tested a few values and 0.95 seems to give the best minimum clade age estimates. However, it is more limited in distance models than paup: (possible values=JC, K2P, TN93, HAMMING,K2P)
--- paup has a lot of options for distances. For the distance model itself you have JC, F81, TAJNEI, K2P, F84, HKY85, K3P, TAMNEI, GTR, ML, LOGDET, UPHOLT, NEILI. You can have RATES=EQUAL RATES=GAMMA. GAMMA rates not allowed with LOGDET. You can have SHAPE = real-value, PINVAR = real-value, and many more options as specified in paup (http://www.ucl.ac.uk/cecd/downloads/PAUP%20command%20reference%20manual.pdf) e.g.
+-- paup has a lot of options for distances. For the distance model itself you have JC, F81, TAJNEI, K2P, F84, HKY85, K3P, TAMNEI, GTR, ML, LOGDET, UPHOLT, NEILI. You can have RATES=EQUAL RATES=GAMMA. GAMMA rates not allowed with LOGDET. You can have SHAPE = real-value, PINVAR = real-value, and many more options as specified in paup (http://www.ucl.ac.uk/cecd/downloads/PAUP%20command%20reference%20manual.pdf)
 ```
 nexus
 fastphylo
@@ -90,3 +90,14 @@ done;
 ```
 
 Once you have done this, your sequences are now in *.fasta format, so make sure you change the first line in your UCE_divergence.settings file to reflect this before attempting to run the UCE_divergence_times pipeline.
+
+#Programs that UCE_divergence_times depends on
+You should cite any of these awesome programs that you use (depending on the options you specify in your UCE_divergence.settings file)
+
+R: R Core Team.  2015.  R: A language and environment for statistical computing. URL http://www.R-project.org/. R Foundation for Statistical Computing, Vienna, Austria. https://www.r-project.org/
+
+PAUP: Swofford, David L. "{PAUP*. Phylogenetic analysis using parsimony (* and other methods). Version 4.}." (2003). http://people.sc.fsu.edu/~dswofford/paup_test/
+
+Fastphylo: Khan, Mehmood A., Isaac Elias, Erik Sjölund, Kristina Nylander, Roman V. Guimera, Richard Schobesberger, Peter Schmitzberger, Jens Lagergren, and Lars Arvestad. "Fastphylo: Fast tools for phylogenetics." BMC bioinformatics 14, no. 1 (2013): 334. http://fastphylo.sourceforge.net/
+
+Seqmagick: seqmagick is written and maintained by the Matsen Group at the Fred Hutchinson Cancer Research Center. http://seqmagick.readthedocs.org/en/latest/
