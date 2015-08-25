@@ -68,9 +68,9 @@ output[i,4] <- max(as.numeric(tempingroupmatrix[,3:(dim(tempingroupmatrix)[2])])
 maxcladedistanceloc <-  arrayInd(which.max(as.numeric(tempingroupmatrix[,3:(dim(tempingroupmatrix)[2])])), dim(tempingroupmatrix))
 output[i,2] <- tempingroupmatrix[maxcladedistanceloc[1,1],2]
 output[i,3] <- tempingroupmatrix[maxcladedistanceloc[1,2],2]
-output[i,7] <- suppressWarnings(min(as.numeric(tempoutgroupmatrix[,3:(dim(tempoutgroupmatrix)[2])])[as.numeric(tempoutgroupmatrix[,3:(dim(tempoutgroupmatrix)[2])])>0]))
+output[i,7] <- suppressWarnings(max(as.numeric(tempoutgroupmatrix[,3:(dim(tempoutgroupmatrix)[2])])[as.numeric(tempoutgroupmatrix[,3:(dim(tempoutgroupmatrix)[2])])>0]))
 
-if(!(output[i,7]=="Inf")) {
+if(!(output[i,7]=="-Inf")) {
 maxoutgrouploc <- arrayInd(which(as.numeric(tempoutgroupmatrix[,3:(dim(tempoutgroupmatrix)[2])])==output[i,7]),dim(tempoutgroupmatrix))
 output[i,5] <- tempoutgroupmatrix[maxoutgrouploc[1,1],2]
 output[i,6] <- tempingroupmatrix[maxoutgrouploc[1,2],2]
@@ -80,9 +80,44 @@ i <- i + 1
 j <- k
 }
 
-# Up to here - need to summarize the output
+missingdata <- NULL
+notclocklike <- NULL
+clocklike <- NULL
 
-write.table(out, "UCE_clade_age.csv", quote=FALSE, sep = ",", col.names=FALSE, row.names=FALSE)
+outputlength <- dim(output)[1]
 
-# Quitting R
-q()
+for (i in 2:outputlength) {
+if (output[i,7]=="-Inf") {
+missingdata <- rbind(missingdata,output[i,])
+} else {
+if (as.numeric(output[i,4])>as.numeric(output[i,7])) {
+notclocklike <- rbind(notclocklike,output[i,])
+} else {
+clocklike <- rbind(clocklike,output[i,])
+}
+}
+}
+
+
+nomissing <- dim(missingdata)[1]
+nonotclock <- dim(notclocklike)[1]
+noclocklike <- dim(clocklike)[1]
+total <- nomissing+nonotclock+noclocklike
+
+minclock <- min(as.numeric(clocklike[,8]))
+quart25 <- quantile(as.numeric(clocklike[,8]))[2]
+medclock <- quantile(as.numeric(clocklike[,8]))[3]
+meanclock <- mean(as.numeric(clocklike[,8]))
+quart75<-  quantile(as.numeric(clocklike[,8]))[4]
+maxclock <- max(as.numeric(clocklike[,8]))
+clocksd <- sd(as.numeric(clocklike[,8]))
+
+cat("Of the total ",total," loci:\n",nomissing," had missing data so age estimates could not be computed\n",nonotclock," were not 'clock-like' due to rate variation or ILS\n")
+
+cat("Over the remaining ",noclocklike," loci, ingroup age estimated at:\nmin         : ",minclock,"\n25% quartile: ",quart25,"\nmedian      : ",medclock,"\nmean        : ",meanclock, "\n75% quartile: ",quart75,"\nmax         : ",maxclock,"\nS.D.        : ", clocksd, "\n")
+
+cat("Total dataset, including missing and not 'clock-like' written to total_output.csv")
+cat("'Clock-like' datset written to UCE_clade_age.csv")
+
+write.table(output, "total_output.csv", quote=FALSE, sep = ",", col.names=FALSE, row.names=FALSE)
+write.table(clocklike, "UCE_clade_age.csv", quote=FALSE, sep = ",", col.names=FALSE, row.names=FALSE)
