@@ -65,3 +65,6 @@ rm -rf *.out
 
 Rscript UCE_divergence.R
 
+if [ "$method" = "paup" ]; then
+bash lengthennames.sh
+fi
