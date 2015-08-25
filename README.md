@@ -32,6 +32,8 @@ DISTANCE=NEILI RATES=GAMMA SHAPE=300 MISSDIST=IGNORE
 fastphylo options example:
 -D HAMMING -F 0.95
 
+Note: I believe that the MISSDIST=IGNORE option in Paup is probably critical for this pipeline to run correctly if you have missing data.
+
 ```
 nexus
 fastphylo
