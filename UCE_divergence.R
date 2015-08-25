@@ -122,5 +122,5 @@ cat("'Clock-like' dataset written to UCE_clade_age.csv\n")
 
 clocklike <- rbind(out,clocklike)
 
-write.table(output, "total_output.csv", quote=FALSE, sep = ",", quote=FALSE, row.names=FALSE,col.names=FALSE)
-write.table(clocklike, "UCE_clade_age.csv", quote=FALSE, sep = ",", quote=FALSE, row.names=FALSE,col.names=FALSE)
+write.table(output, "total_output.csv", sep = ",", quote=FALSE, row.names=FALSE,col.names=FALSE)
+write.table(clocklike, "UCE_clade_age.csv", sep = ",", quote=FALSE, row.names=FALSE,col.names=FALSE)
