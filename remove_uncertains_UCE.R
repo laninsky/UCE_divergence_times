@@ -13,10 +13,8 @@ tempname <- NULL
 for (j in 1:rows) {
 if ((length(grep(">",intable[j,1])))>0) {
 if(!(is.null(sequencepaste))) {
-if ((nchar(gsub("N","",gsub("-","",sequencepaste),ignore.case=T)))>0) {
 to_write <- rbind(to_write,tempname)
 to_write <- rbind(to_write,sequencepaste)
-}
 }
 tempname <- intable[j,1]
 sequencepaste <- NULL
@@ -25,7 +23,6 @@ sequencepaste <- paste(sequencepaste,intable[j,1],sep="")
 }
 }
 
-if ((nchar(gsub("N","",gsub("-","",sequencepaste),ignore.case=T)))>0) {
 to_write <- rbind(to_write,tempname)
 to_write <- rbind(to_write,sequencepaste)
 } 
