@@ -63,9 +63,9 @@ mantheyus_phuwanensis_fmnh262580
 
 #Removing unwanted sequences
 
-If you've got multiple non-monophyletic outgroups, you'll need to jettison these for the program to run correctly. To do this, you'll need to run step 3) from https://github.com/laninsky/Phase_hybrid_from_next_gen/tree/master/post-processing
+If you've got multiple non-monophyletic outgroups, you'll need to jettison these for the program to run correctly. To do this, you'll need to get a "species_assignment" file together (as described in step 3) from https://github.com/laninsky/Phase_hybrid_from_next_gen/tree/master/post-processing. We need to run the remove_uncertains_UCE.R code in this repository, rather than the remove_uncertains.R code in the Phas_hybrid_from_next_gen repository, because we do not want to jettison any sequences that don't have sequence data.
 
-This code works on fasta files, so if you are coming from *.nex or *.nexus files you'll need to run the first two blocks of the following code before you can run the remove_uncertains.R code. For your species_assignments file (see link above for more detail), you don't need to worry about designating any species as 'hybrid' for our application here, but do make sure the sequences you want to get rid of are labelled as uncertain.
+This code works on fasta files, so if you are coming from *.nex or *.nexus files you'll need to run the first two blocks of the following code before you can run the remove_uncertains_UCE.R code. For your species_assignments file (see link above for more detail), you don't need to worry about designating any species as 'hybrid' for our application here, but do make sure the sequences you want to get rid of are labelled as uncertain.
 
 ```
 if [ "$filetype" = "nexus" ]; then
@@ -85,7 +85,7 @@ fi
 unset i
 for i in `ls *.fasta`;
 do mv $i temp;
-Rscript remove_uncertains.R
+Rscript remove_uncertains_UCE.R
 mv temp.fa $i;
 rm -rf temp;
 done;
