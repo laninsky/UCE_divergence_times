@@ -25,7 +25,6 @@ sequencepaste <- paste(sequencepaste,intable[j,1],sep="")
 
 to_write <- rbind(to_write,tempname)
 to_write <- rbind(to_write,sequencepaste)
-} 
 
 if ((length(grep(">",to_write[1,1])))==0) {
 to_write <- rbind(intable[1,1],to_write)
