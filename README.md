@@ -103,3 +103,7 @@ PAUP: Swofford, David L. "{PAUP*. Phylogenetic analysis using parsimony (* and o
 Fastphylo: Khan, Mehmood A., Isaac Elias, Erik Sjölund, Kristina Nylander, Roman V. Guimera, Richard Schobesberger, Peter Schmitzberger, Jens Lagergren, and Lars Arvestad. "Fastphylo: Fast tools for phylogenetics." BMC bioinformatics 14, no. 1 (2013): 334. http://fastphylo.sourceforge.net/
 
 Seqmagick: seqmagick is written and maintained by the Matsen Group at the Fred Hutchinson Cancer Research Center. http://seqmagick.readthedocs.org/en/latest/
+
+If you want to cite the pipeline, it is going to be presented in an upcoming pub (please check back for details), otherwise:
+
+Alexander, A. 2015. UCE_divergence_times v1.0.0. Available from https://github.com/laninsky/UCE_divergence_times
