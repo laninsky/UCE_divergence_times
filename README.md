@@ -98,6 +98,8 @@ You should cite any of these awesome programs that you use (depending on the opt
 
 R: R Core Team.  2015.  R: A language and environment for statistical computing. URL http://www.R-project.org/. R Foundation for Statistical Computing, Vienna, Austria. https://www.r-project.org/
 
+Stringr: Hadley Wickham (2012). stringr: Make it easier to work with strings.. R package version 0.6.2. http://CRAN.R-project.org/package=stringr (for up-to-date citation information run citation("stringr" in R)
+
 PAUP: Swofford, David L. "{PAUP*. Phylogenetic analysis using parsimony (* and other methods). Version 4.}." (2003). http://people.sc.fsu.edu/~dswofford/paup_test/
 
 Fastphylo: Khan, Mehmood A., Isaac Elias, Erik Sjölund, Kristina Nylander, Roman V. Guimera, Richard Schobesberger, Peter Schmitzberger, Jens Lagergren, and Lars Arvestad. "Fastphylo: Fast tools for phylogenetics." BMC bioinformatics 14, no. 1 (2013): 334. http://fastphylo.sourceforge.net/
