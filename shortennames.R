@@ -5,6 +5,7 @@ norows <- length(input)
 names <- NULL
 x <- 0
 
+#Code review 15-Dec-2016: I think these "breaks" might be better served as "nexts"
 for (i in 2:length(input)) {
 if (input[i-1]=="matrix") {
 x <- 1
