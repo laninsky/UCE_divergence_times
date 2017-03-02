@@ -106,6 +106,8 @@ Fastphylo: Khan, Mehmood A., Isaac Elias, Erik Sjölund, Kristina Nylander, Roma
 
 Seqmagick: seqmagick is written and maintained by the Matsen Group at the Fred Hutchinson Cancer Research Center. http://seqmagick.readthedocs.org/en/latest/
 
-If you want to cite the pipeline, it is going to be presented in an upcoming pub (please check back for details), otherwise:
+If you want to cite the pipeline:
 
 Alexander, A. 2015. UCE_divergence_times v1.0.0. Available from https://github.com/laninsky/UCE_divergence_times
+
+Grismer, J.L., Schulte, J.A., Alexander, A., Wagner, P., Travers, S.L., Buehler, M.D., Welton, L.J. and Brown, R.M., 2016. The Eurasian invasion: phylogenomic data reveal multiple Southeast Asian origins for Indian Dragon Lizards. BMC evolutionary biology, 16(1), p.43.
