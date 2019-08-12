@@ -3,7 +3,7 @@ Given an outgroup among your UCE data, and a fossil calibration for the split be
 
 This program is designed to be run inside a folder that has a separate *.fasta or *.nex file for each of your UCE loci. Within that folder you should place your UCE_divergence.settings file (described below), UCE_divergence.sh, shortennames.R (the library stringr needs to have previously been installed as an R-dependency using install.packages("stringr")), and UCE_divergence.R. You can then execute UCE_divergence_times by bash UCE_divergence.sh.
 
-#Setting up your UCE_divergence.settings file
+# Setting up your UCE_divergence.settings file
 First line:
 Your UCE_divergence.settings file is just a simple text file with a different option on each line. The first of these is whether your data is *.fasta or *.nexus. If it is *.nexus, is the extension *.nexus or *.nex (some of the programs care about the specific extension name)? First line = fasta, nexus or nex e.g.
 ```
@@ -61,7 +61,7 @@ mantheyus_phuwanensis_fmnh255495b
 mantheyus_phuwanensis_fmnh262580
 ```
 
-#Removing unwanted sequences
+# Removing unwanted sequences
 
 If you've got multiple non-monophyletic outgroups, you'll need to jettison these for the program to run correctly. To do this, you'll need to get a "species_assignment" file together (as described in step 3) from https://github.com/laninsky/Phase_hybrid_from_next_gen/tree/master/post-processing. We need to run the remove_uncertains_UCE.R code in this repository, rather than the remove_uncertains.R code in the Phas_hybrid_from_next_gen repository, because we do not want to jettison any sequences that don't have sequence data.
 
@@ -93,9 +93,9 @@ done;
 
 Once you have done this, your sequences are now in *.fasta format, so make sure you change the first line in your UCE_divergence.settings file to reflect this before attempting to run the UCE_divergence_times pipeline.
 
-#Programs that UCE_divergence_times depends on
+# Programs that UCE_divergence_times depends on
 You should cite any of these awesome programs that you use (depending on the options you specify in your UCE_divergence.settings file)
-
+```
 R: R Core Team.  2015.  R: A language and environment for statistical computing. URL http://www.R-project.org/. R Foundation for Statistical Computing, Vienna, Austria. https://www.r-project.org/
 
 Stringr: Hadley Wickham (2012). stringr: Make it easier to work with strings.. R package version 0.6.2. http://CRAN.R-project.org/package=stringr (for up-to-date citation information run citation("stringr" in R)
@@ -105,9 +105,10 @@ PAUP: Swofford, David L. "{PAUP*. Phylogenetic analysis using parsimony (* and o
 Fastphylo: Khan, Mehmood A., Isaac Elias, Erik Sjölund, Kristina Nylander, Roman V. Guimera, Richard Schobesberger, Peter Schmitzberger, Jens Lagergren, and Lars Arvestad. "Fastphylo: Fast tools for phylogenetics." BMC bioinformatics 14, no. 1 (2013): 334. http://fastphylo.sourceforge.net/
 
 Seqmagick: seqmagick is written and maintained by the Matsen Group at the Fred Hutchinson Cancer Research Center. http://seqmagick.readthedocs.org/en/latest/
-
+```
 If you want to cite the pipeline:
-
+```
 Alexander, A. 2015. UCE_divergence_times v1.0.0. Available from https://github.com/laninsky/UCE_divergence_times
 
 Grismer, J.L., Schulte, J.A., Alexander, A., Wagner, P., Travers, S.L., Buehler, M.D., Welton, L.J. and Brown, R.M., 2016. The Eurasian invasion: phylogenomic data reveal multiple Southeast Asian origins for Indian Dragon Lizards. BMC evolutionary biology, 16(1), p.43.
+```
